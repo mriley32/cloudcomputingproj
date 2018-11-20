@@ -2,9 +2,8 @@ import json
 import boto3
 
 #Import the necessary methods from tweepy library
+import tweepy
 from tweepy.streaming import StreamListener
-from tweepy import OAuthHandler
-from tweepy import Stream
 
 #Load credentials and config
 config = json.loads("config.json")
@@ -26,12 +25,19 @@ access_token_secret = config['tweepy']['access_token_secret']
 consumer_key = config['tweepy']['consumer_key']
 consumer_secret = config['tweepy']['consumer_secret']
 
-#Implement this function to publish data to SQS
-def publish():
-    return True    
+auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+auth.set_access_token(access_token, access_token_secret)
+
+twitter_api = tweepy.API(auth)
+
+#Load targeted twitter handles
+user_ids = []
+twitter_handles = json.loads('twitter_handles.json')
+for i in twitter_handles:
+    user = twitter_api.get_user(i)
+    user_ids.append(user.id)
     
-    
-#This is a basic listener that just prints received tweets to stdout.
+#Listener that prints tweets and adds them to a sqs queue
 class StdOutListener(StreamListener):
 
     def on_data(self, data):
@@ -46,12 +52,11 @@ def main():
     print 'Listening...'
     #This handles Twitter authetification and the connection to Twitter Streaming API
     l = StdOutListener()
-    auth = OAuthHandler(consumer_key, consumer_secret)
-    auth.set_access_token(access_token, access_token_secret)
-    stream = Stream(auth, l)
+    
+    stream = tweepy.Stream(auth, l)
 
     #This line filter Twitter Streams to capture data by the keywords
-    stream.filter(track=['spacex'])
+    stream.filter(follow=user_ids)
 
 if __name__ == '__main__':
     main()    
