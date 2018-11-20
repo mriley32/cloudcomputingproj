@@ -5,10 +5,14 @@ import boto3
 
 import StockData
 
-USERNAME = 'root'
-PASSWORD = 'ZZ6uc^hd9!Hw'
-DB_NAME = 'ECE4813_Design_Project'
-HOST = "ece4813-design-project.cehibzqjgc4u.us-east-2.rds.amazonaws.com"
+#Load credentials and config
+config = json.loads("config.json")
+
+#DB Credentials
+USERNAME = config['RDS']['USERNAME']
+PASSWORD = config['RDS']['PASSWORD']
+DB_NAME = config['RDS']['DB_NAME']
+HOST = config['RDS']['HOST']
 
 TERMS={}
 
