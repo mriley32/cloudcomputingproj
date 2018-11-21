@@ -1,0 +1,37 @@
+{
+    "Telecommunications": [
+        "VZ",
+        "ATT",
+        "CHL",
+        "TMUS",
+        "VOD"
+    ],
+    "Consumer": [
+        "PG",
+        "KO",
+        "PEP",
+        "BUD"
+    ],
+    "Technology": [
+        "GOOGL",
+        "FB",
+        "IBM",
+        "SSNLF",
+        "BABA",
+        "INTC",
+        "CSCO"
+    ],
+    "Energy": [
+        "CVX",
+        "BP",
+        "DUK",
+        "BTU"
+    ],
+    "Financial": [
+        "HSBC",
+        "BOA",
+        "JPM",
+        "BRK.A",
+        "AIG"
+    ]
+}
