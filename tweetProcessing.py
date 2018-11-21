@@ -2,11 +2,13 @@ import re
 import json
 import MySQLdb
 import boto3
+import datetime
 
 import StockData
 
 #Load credentials and config
-config = json.loads("config.json")
+json_data=open("config.json").read()
+config = json.loads(json_data)
 
 #DB Credentials
 USERNAME = config['RDS']['USERNAME']
@@ -40,10 +42,7 @@ def findsentiment(tweet):
 
     return sentiment
 
-def getFinancialData(timestamp):
-    #add code to get financial data
-    return 0
-
+timestamp_f = '%Y-%m-%d %H:%M:%S'
 
 def lambda_handler(event, context):
     conn = MySQLdb.connect (host = HOST,
@@ -54,15 +53,17 @@ def lambda_handler(event, context):
     
     cursor = conn.cursor()
     
-    # TODO implement
     for record in event:
         data = json.loads(record['body'])
-        handle = ''
+        
+        handle = data['user']['screen_name']
         tweet = data['text']
-        date_time = ''
+        date_time = datetime.strptime(data['created_at'],'%a %b %d %H:%m:%s %z %Y')
+        
         sentiment = findsentiment(data)
 
-        cursor.execute('INSERT INTO tweets (twitter_handle, date_time, tweet_text, sentiment_score) VALUES ("%s", %s, "%s", %f)' % (handle, date_time, tweet, sentiment))
+        statement = 'INSERT INTO tweets (twitter_handle, date_time, tweet_text, sentiment_score) VALUES ("%s", %s, "%s", %f)' % (handle, date_time.strftime(timestamp_f), tweet, sentiment)
+        cursor.execute(statement)
 
 
     conn.commit()
