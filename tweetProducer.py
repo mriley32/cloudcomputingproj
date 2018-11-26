@@ -1,5 +1,7 @@
 import json
 import boto3
+from datetime import datetime
+import dateutil.parser as parser
 
 #Import the necessary methods from tweepy library
 import tweepy
@@ -34,21 +36,25 @@ twitter_api = tweepy.API(auth)
 #Load targeted twitter handles
 user_ids = []
 json_data=open('twitter_handles.json').read()
-twitter_handles = json.loads(json_data)
+twitter_handles = json.loads(json_data)["handles"]
 for i in twitter_handles:
     user = twitter_api.get_user(i)
-    user_ids.append(user.id)
+    user_ids.append(str(user.id))
+print user_ids
     
 #Listener that prints tweets and adds them to a sqs queue
 class StdOutListener(StreamListener):
-
-    def on_data(self, data):
-        print json.loads(data)['text']
-        queue.send_message(MessageBody=json.dumps(data))
+    
+    def on_status(self, status):
+        if status.author.id_str in user_ids:
+            print status.user.screen_name + '\a'
+            print status.created_at
+            print status.text
+            queue.send_message(MessageBody=json.dumps(status))
         return True
 
     def on_error(self, status):
-        print status
+        print status + '\a'
 
 def main():
     print 'Listening...'
