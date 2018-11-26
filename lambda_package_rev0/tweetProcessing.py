@@ -1,7 +1,6 @@
 import re
 import json
 import pymysql
-import boto3
 import datetime
 import dateutil.parser as parser
 
