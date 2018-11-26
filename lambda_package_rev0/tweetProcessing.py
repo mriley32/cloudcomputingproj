@@ -1,7 +1,7 @@
 import re
 import json
 import pymysql
-import datetime
+from datetime import datetime, date, time, timedelta
 import dateutil.parser as parser
 
 #Load credentials and config
@@ -29,8 +29,8 @@ sent_file.close()
 def findsentiment(tweet):
     sentiment=0.0
 
-    if tweet.has_key('text'):
-        text = tweet['text']		
+    if tweet.has_key('full_text'):
+        text = tweet['full_text']		
         text=re.sub('[!@#$)(*<>=+/:;&^%#|\{},.?~`]', '', text)
         splitTweet=text.split()
 
@@ -47,11 +47,11 @@ def lambda_handler(event, context):
                 user = USERNAME,
                 passwd = PASSWORD,
                 db = DB_NAME, 
-		        port = 3306)
+		        port = 3306, charset='utf8mb4', use_unicode=True)
     
     cursor = conn.cursor()
     
-    for record in event:
+    for record in event['Records']:
         data = json.loads(record['body'])
         
         handle = data['user']['screen_name']
@@ -60,13 +60,15 @@ def lambda_handler(event, context):
         
         sentiment = findsentiment(data)
 
-        statement = 'INSERT INTO tweets (twitter_handle, date_time, tweet_text, sentiment_score) VALUES ("%s", %s, "%s", %f)' % (handle, date_time.strftime(timestamp_f), tweet, sentiment)
+        statement = 'INSERT INTO tweets (twitter_handle, date_time, tweet_text, sentiment_score) VALUES ("%s", "%s", "%s", %f)' % (handle, date_time.strftime(timestamp_f),tweet, sentiment)
         cursor.execute(statement)
 
 
     conn.commit()
     cursor.close()
-    conn.close() 
+    conn.close()
+
+    return ''
 
 
 
