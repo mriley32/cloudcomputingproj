@@ -50,7 +50,7 @@ class StdOutListener(StreamListener):
             print status.user.screen_name + '\a'
             print status.created_at
             print status.text
-            queue.send_message(MessageBody=json.dumps(status))
+            queue.send_message(MessageBody=json.dumps(status._json))
         return True
 
     def on_error(self, status):
@@ -61,7 +61,7 @@ def main():
     #This handles Twitter authetification and the connection to Twitter Streaming API
     l = StdOutListener()
     
-    stream = tweepy.Stream(auth, l)
+    stream = tweepy.Stream(auth = auth, listener = l, tweet_mode="extended")
 
     #This line filter Twitter Streams to capture data by the keywords
     stream.filter(follow=user_ids)

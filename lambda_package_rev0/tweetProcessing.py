@@ -56,7 +56,7 @@ def lambda_handler(event, context):
         data = json.loads(record['body'])
         
         handle = data['user']['screen_name']
-        tweet = data['text']
+        tweet = data['full_text']
         date_time = parser.parse(data['created_at'])
         
         sentiment = findsentiment(data)
