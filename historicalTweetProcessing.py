@@ -57,7 +57,7 @@ else:
 def produceTweets(id):
     # Get the queue
     queue = sqs.get_queue_by_name(QueueName='Pending_Tweets')
-    
+
     items = twitter_api.user_timeline(user_id = id, tweet_mode="extended")
     while(True):
         if len(items) < 1 or items[0].created_at <= tweets_begin:
@@ -66,7 +66,7 @@ def produceTweets(id):
         if items[-1].created_at <= tweets_end:
             for i in items:
                 if tweets_begin <= i.created_at <= tweets_end:
-                    #print i
+                    #print json.dumps(i._json)
                     print "@%s (%s) '%s'" % (i.user.screen_name, str(i.created_at), i.full_text)
                     queue.send_message(MessageBody=json.dumps(i._json))
         
@@ -76,11 +76,11 @@ def produceTweets(id):
 tweet_pool = mp.Pool(processes=10)
 
 def main():
-    #produceTweets(user_ids[1])
-    tweet_pool.map_async(produceTweets, user_ids).get(9999999)
+    produceTweets(user_ids[5])
+    #tweet_pool.map_async(produceTweets, user_ids).get(9999999)
 
-    tweet_pool.close()
-    tweet_pool.join()
+    #tweet_pool.close()
+    #tweet_pool.join()
 
 if __name__ == '__main__':
     main()
