@@ -1,6 +1,6 @@
 import re
 import json
-import MySQLdb
+import pymysql
 import boto3
 import datetime
 import dateutil.parser as parser
@@ -44,7 +44,7 @@ def findsentiment(tweet):
 timestamp_f = '%Y-%m-%d %H:%M:%S'
 
 def lambda_handler(event, context):
-    conn = MySQLdb.connect (host = HOST,
+    conn = pymysql.connect (host = HOST,
                 user = USERNAME,
                 passwd = PASSWORD,
                 db = DB_NAME, 
