@@ -1,35 +1,35 @@
 {
-    "Telecommunications": [
+    "Telecommunications" : [
         "VZ",
         "T",
         "CHL",
         "TMUS",
         "VOD"
     ],
-    "Consumer": [
+    "Consumer" : [
         "PG",
         "KO",
         "PEP",
         "BUD",
-        "WMT",
+        "WMT"
     ],
-    "Healthcare":[
+    "Healthcare" :[
         "JNJ",
         "UNH",
         "PFE"
     ],
-    "Technology": [
+    "Technology" : [
         "GOOGL",
         "FB",
         "IBM",
         "BABA",
         "INTC",
         "CSCO",
-        "APPL",
+        "AAPL",
         "NFLX",
         "TSLA"
     ],
-    "Energy": [
+    "Energy" : [
         "CVX",
         "BP",
         "DUK",
@@ -37,7 +37,7 @@
         "EC",
         "XOM"
     ],
-    "Financial": [
+    "Financial" : [
         "HSBC",
         "BAC",
         "JPM",
@@ -47,8 +47,7 @@
         "WFC",
         "CB"
     ],
-    "Industrials":
-    [
+    "Industrials" : [
         "BA",
         "MMM",
         "HON"

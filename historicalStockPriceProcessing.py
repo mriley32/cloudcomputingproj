@@ -33,7 +33,8 @@ else:
 
 #Read in list of industries
 industries = {}
-data=json.loads(open('stock_codes.json').read())
+json_data = open('stock_codes.json').read()
+data=json.loads(json_data)
 for industry in data:
     for stock in data[industry]:
         industries[stock] = industry
