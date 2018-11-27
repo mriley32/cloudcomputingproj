@@ -10,7 +10,13 @@
         "PG",
         "KO",
         "PEP",
-        "BUD"
+        "BUD",
+        "WMT",
+    ],
+    "Healthcare":[
+        "JNJ",
+        "UNH",
+        "PFE"
     ],
     "Technology": [
         "GOOGL",
@@ -18,19 +24,33 @@
         "IBM",
         "BABA",
         "INTC",
-        "CSCO"
+        "CSCO",
+        "APPL",
+        "NFLX",
+        "TSLA"
     ],
     "Energy": [
         "CVX",
         "BP",
         "DUK",
-        "BTU"
+        "BTU",
+        "EC",
+        "XOM"
     ],
     "Financial": [
         "HSBC",
         "BAC",
         "JPM",
         "BRK.A",
-        "AIG"
+        "BRK.B",
+        "AIG",
+        "WFC",
+        "CB"
+    ],
+    "Industrials":
+    [
+        "BA",
+        "MMM",
+        "HON"
     ]
 }
