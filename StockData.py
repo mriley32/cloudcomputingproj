@@ -1,6 +1,4 @@
-from iexfinance import get_historical_data
-from iexfinance import Stock
-import datetime
+
 
 #You should input the date you would like to see changed from
 #For example, if you input Feb 2, this will tell you how much the high on Feb 3 - high on Feb 2 is

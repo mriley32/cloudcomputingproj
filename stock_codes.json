@@ -1,7 +1,7 @@
 {
     "Telecommunications": [
         "VZ",
-        "ATT",
+        "T",
         "CHL",
         "TMUS",
         "VOD"
@@ -16,7 +16,6 @@
         "GOOGL",
         "FB",
         "IBM",
-        "SSNLF",
         "BABA",
         "INTC",
         "CSCO"
@@ -29,7 +28,7 @@
     ],
     "Financial": [
         "HSBC",
-        "BOA",
+        "BAC",
         "JPM",
         "BRK.A",
         "AIG"
