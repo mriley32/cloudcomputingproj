@@ -1,0 +1,116 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Stock Predictor</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<style>
+    #myTable {
+        position: relative;
+        top: 60px;
+    }
+    #myButtons{
+        margin: 0;
+        position: absolute; 
+        top: 120%;
+        left: 50%;
+        margin-right: -50%;
+        transform: translate(-50%, -50%)
+    }
+    table {
+        width: 50%;
+        margin: auto;
+
+    }
+    table,td,th{
+        text-align: center;
+        border: 1px solid black;
+    }
+    th {
+        background-color: #4CAF50;
+        color: white;
+    }
+    td,th{
+        padding: 10px;
+    }
+    tr:nth-child(even) {background-color: #f2f2f2;}
+    button {
+        padding-left: 10px
+        text-align: center;
+        margin: 4px 2px;
+        width: 30%;
+        display: inline-block;
+    }
+    button:hover{
+        background: orange;
+    }
+    h3 {
+        text-align: center;
+
+    }
+    h3,h4 {
+        text-align: center;
+
+    }
+    h4 {
+        font-size: 14px;
+        font-style: normal;
+        font-weight: normal;
+    }    
+    #buttonLink { color: #000000; }
+
+</style>
+
+</head>
+
+<h1> Stock Predictor</h1>
+
+
+<body>
+
+<h3> Telecommunication Companies</h3>
+<h4> These are tomorrows predicted Stocks</h4>
+
+<div id = "myTable">
+<table>
+
+<tr>
+    <th>Company</th>
+    <th>Stock Prediction</th>
+    <th>Current Price</th>
+    <th>Key Handle</th>
+</tr>
+
+<tr>
+    {% for x in range(tech.companies|length) %}
+    <td>{{tech.companies[x]}}</td>
+    <td>{{tech.prediction[x]}}</td>
+    <td>{{tech.current_price[x]}}</td>
+    <td><a href = "/keyhandle/" >{{tech.key_handle[x]}}</a>
+</tr>
+    {% endfor %}
+</table>  
+
+<div id = "myButtons">
+    <div>
+    <a href = "/" id = "buttonLink"><button>Technology</button></a>
+    <a href = "/healthcare" id = "buttonLink"><button>Healthcare</button></a>
+    <a href = "/finance" id = "buttonLink"><button>Finance</button></a>
+    <a href = "/consumer" id = "buttonLink"><button>Consumer</button></a>
+    <a href = "/energy" id = "buttonLink"><button>Energy</button></a>
+    <a href = "/industrials" id = "buttonLink"><button>Industrials</button></a>
+    </div>
+</div>
+
+</div>
+
+</body>
+</html>

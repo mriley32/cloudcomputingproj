@@ -1,0 +1,45 @@
+
+#myTable {
+    position: relative;
+    top: 60px;
+}
+#myButtons{
+    margin: 0;
+    position: absolute; 
+    top: 120%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
+}
+table {
+    width: 50%;
+    margin: auto;
+
+}
+table,td,th{
+    text-align: center;
+    border: 1px solid black;
+}
+th {
+    background-color: #4CAF50;
+    color: white;
+}
+td,th{
+    padding: 10px;
+}
+tr:nth-child(even) {background-color: #f2f2f2;}
+button {
+    padding-left: 10px
+    text-align: center;
+    margin: 4px 2px;
+    width: 30%;
+    display: inline-block;
+}
+button:hover{
+    background: orange;
+}
+h3 {
+    text-align: center;
+
+}
+#buttonLink { color: #000000; }
