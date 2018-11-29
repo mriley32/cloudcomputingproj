@@ -90,7 +90,7 @@ def produceTweets(id):
     
     cursor = conn.cursor()
 
-    items = twitter_api.user_timeline(user_id = id, tweet_mode="extended")
+    items = twitter_api.user_timeline(user_id = id, tweet_mode="extended", wait_on_rate_limit=True)
     while(True):
         if len(items) < 1 or items[0].created_at <= tweets_begin:
             break
@@ -99,7 +99,7 @@ def produceTweets(id):
             for i in items:
                 if tweets_begin <= i.created_at <= tweets_end:
                     #print json.dumps(i._json)
-                    print "@%s (%s) '%s'" % (i.user.screen_name, str(i.created_at), i.full_text)
+                    #print "@%s (%s) '%s'" % (i.user.screen_name, str(i.created_at), i.full_text)
                     
                     data = json.loads(json.dumps(i._json))
 
@@ -108,20 +108,24 @@ def produceTweets(id):
                     date_time = parser.parse(data['created_at'])
         
                     sentiment = findsentiment(data)
-                    print sentiment
-
-                    statement = 'INSERT INTO tweets (twitter_handle, date_time, tweet_text, sentiment_score) VALUES ("%s", "%s", "%s", %f)' % (handle, date_time.strftime(timestamp_f),tweet, sentiment)
+                    
+                    statement = "SELECT * FROM tweets WHERE twitter_handle='%s' AND date_time='%s';" % (handle.replace("'","''"), date_time.strftime(timestamp_f))
                     print statement
                     cursor.execute(statement)
+                    
+                    if cursor.fetchone() == None:
+                        statement = "INSERT INTO tweets (twitter_handle, date_time, tweet_text, sentiment_score) VALUES ('%s', '%s', '%s', %f);" % (handle.replace("'","''"), date_time.strftime(timestamp_f),tweet.replace("'","''"), sentiment)
+                        print statement
+                        cursor.execute(statement)
         
-        items = twitter_api.user_timeline(user_id = id, tweet_mode="extended", max_id = items[-1].id)
+        items = twitter_api.user_timeline(user_id = id, tweet_mode="extended", max_id = items[-1].id, wait_on_rate_limit=True)
     
     conn.commit()
     cursor.close()
     conn.close() 
 
 #Setup multiprocessing pool
-tweet_pool = mp.Pool(processes=10)
+tweet_pool = mp.Pool(processes=20)
 
 def main():
     #produceTweets(user_ids[5])

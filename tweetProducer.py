@@ -61,7 +61,7 @@ def main():
     #This handles Twitter authetification and the connection to Twitter Streaming API
     l = StdOutListener()
     
-    stream = tweepy.Stream(auth = auth, listener = l, tweet_mode="extended")
+    stream = tweepy.Stream(auth = auth, listener = l, tweet_mode="extended", wait_on_rate_limit=True)
 
     #This line filter Twitter Streams to capture data by the keywords
     stream.filter(follow=user_ids)

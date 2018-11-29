@@ -60,8 +60,12 @@ def lambda_handler(event, context):
         
         sentiment = findsentiment(data)
 
-        statement = 'INSERT INTO tweets (twitter_handle, date_time, tweet_text, sentiment_score) VALUES ("%s", "%s", "%s", %f)' % (handle, date_time.strftime(timestamp_f),tweet, sentiment)
+        statement = 'SELECT * FROM tweets WHERE twitter_handle="%s" AND date_time="%s"' % (handle, date_time.strftime(timestamp_f))
         cursor.execute(statement)
+        
+        if cursor.fetchone() == None:
+            statement = 'INSERT INTO tweets (twitter_handle, date_time, tweet_text, sentiment_score) VALUES ("%s", "%s", "%s", %f)' % (handle, date_time.strftime(timestamp_f),tweet, sentiment)
+            cursor.execute(statement)
 
 
     conn.commit()
