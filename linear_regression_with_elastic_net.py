@@ -24,6 +24,7 @@ from pyspark.conf import SparkConf
 from pyspark.ml.regression import LinearRegression
 # $example off$
 import pyspark.sql
+from pyspark.sql.functions import *
 from pyspark.sql import SparkSession
 from pyspark.sql import SQLContext
 
@@ -45,7 +46,10 @@ if __name__ == "__main__":
     password = "ZZ6uc^hd9!Hw"
     dftweets = sqlContext.read.format("jdbc").options(url=url,driver = "com.mysql.jdbc.Driver",dbtable="tweets",user=user,password=password).load()
     dfstock = sqlContext.read.format("jdbc").options(url=url,driver = "com.mysql.jdbc.Driver",dbtable="financial_data",user=user,password=password).load()
-    dftweets = dftweets.sort("date_time",ascending=True)
+    
+    tweets = dftweets.drop('tweet_text').drop('id').withColumn('date',date_trunc('day',col('date_time'))).drop('date_time')
+    aggtweets = tweets.groupBy('date','twitter_handle').agg(avg(tweets.sentiment_score).alias('sentiment_score'))
+    aggtweets.groupBy('date').pivot('twitter_handle').sum('sentiment_score')
     dfstock = dfstock.sort("date_time",ascending=True)
     groupedstock = dfstock.groupby("ticker_code")
     dummy = dfstock.dropDuplicates(['ticker_symbol'])
