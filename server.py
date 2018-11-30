@@ -32,11 +32,11 @@ response = s3.get_object(Bucket=BUCKET,
                          Key=last_added)
 
 result = json.loads(response['Body'].read())
+companies_keys = result.keys()
 
 @app.route('/', methods = ['GET'])
 def home_page():
-
-	return render_template('index.html', handles = twitter_handles['handles'])
+	return render_template('index.html', tableData = result, companies = companies_keys )
 
 
 @app.route('/technology',methods=['GET'])
