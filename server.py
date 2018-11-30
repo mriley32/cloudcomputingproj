@@ -37,44 +37,6 @@ def home_page():
 	return render_template('index.html', handles = twitter_handles['handles'])
 
 
-@app.route('/technology',methods=['GET'])
-def tech_page():
-	table = retreiveData("Technology")
-	return render_template('predictions.html',tech = table, companies = company_data["Technology"])
-
-
-@app.route('/finance', methods = ['GET'])
-def finance_page():
-	table = retreiveData("Financial")
-	return render_template('finance.html', tech = table, companies = company_data["Financial"])
-
-
-@app.route('/energy',methods = ['GET'])
-def energy_page():
-	table = retreiveData("Energy")
-	return render_template('energy.html', tech = table,companies = company_data["Energy"])
-
-
-@app.route('/consumer',methods = ['GET'])
-def consumer_page():
-	table = retreiveData("Consumer")
-	return render_template('consumer.html', tech = table, comapnies = company_data["Consumer"])
-
-@app.route('/industrials',methods = ['GET'])
-def industrials_page():
-	table = retreiveData("Industrials")
-	return render_template('industrials.html', tech = table, comapnies = company_data["Industrials"])
-
-@app.route('/telecom',methods = ['GET'])
-def telecom_page():
-	table = retreiveData("Telecommunication")
-	return render_template('telecom.html', tech = table, comapnies = company_data["Telecommunication"])
-
-@app.route('/healthcare', methods = ['GET'])
-def healthcare_page():
-	table = retreiveData("Healthcare")
-	return render_template('healthcare.html', tech = table, comapnies = company_data["Healthcare"])
-
 # @app.route('/R2.png', methods = ['GET'])
 # def plotR2():
 # 	companies = result.keys()
