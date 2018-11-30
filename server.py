@@ -79,23 +79,23 @@ def healthcare_page():
 	table = retreiveData("Healthcare")
 	return render_template('healthcare.html', tech = table, comapnies = company_data["Healthcare"])
 
-@app.route('/R2.png', methods = ['GET'])
-def plotR2():
-	companies = result.keys()
-	R2 = [result[i].R2 for i in companies]
+#@app.route('/R2.png', methods = ['GET'])
+#def plotR2():
+	#companies = result.keys()
+	#R2 = [result[i].R2 for i in companies]
 
-	fig, ax = plt.subplots()
-	ind = np.arange(1, len(companies) + 1)
+	#fig, ax = plt.subplots()
+	#ind = np.arange(1, len(companies) + 1)
 
-	plt.bar(ind, R2)
+	#plt.bar(ind, R2)
 
-	ax.set_xticks(ind)
-	ax.set_xticklabels(companies)
-	ax.set_ylim([0, 100])
-	ax.set_ylabel('R Squared Value')
-	ax.set_title('Prediction Accuracy (R Squared)')
+	#ax.set_xticks(ind)
+	#ax.set_xticklabels(companies)
+	#ax.set_ylim([0, 100])
+	#ax.set_ylabel('R Squared Value')
+	#ax.set_title('Prediction Accuracy (R Squared)')
 
-	return fig
+	#return fig
 
 if __name__ == '__main__':
     app.debug=True
