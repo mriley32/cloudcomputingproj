@@ -4,12 +4,6 @@ import urllib2
 import pymysql
 import json
 
-from iexfinance import get_historical_data
-from iexfinance import Stock
-from datetime import datetime, date, time, timedelta
-
-
-
 app = Flask(__name__)
 from datetime import date
 today = date.today()
