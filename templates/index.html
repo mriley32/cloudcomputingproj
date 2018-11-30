@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}
+Stock Predictor
+{% endblock %}
+
+
+
+
+{% block content %}
+<table>
+<tr>
+	<th> Twitter Handle </th>
+</tr>
+
+<tr>
+	{% for handle in handles %}
+	<td> {{handle}} </td>
+</tr>
+	{% endfor %}
+</table>
+
+{% endblock %}

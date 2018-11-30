@@ -76,6 +76,9 @@ json_data = open('stock_codes.json').read()
 company_data=json.loads(json_data)
 current_time = date.today()
 
+twitter_handles_data = open('twitter_handles.json').read()
+twitter_handles = json.loads(twitter_handles_data)
+
 
 def retreiveData(key):
 
@@ -112,8 +115,15 @@ def retreiveData(key):
 
 	return table_data
 
-@app.route('/',methods=['GET'])
+
+@app.route('/', methods = ['GET'])
 def home_page():
+
+	return render_template('index.html', handles = twitter_handles['handles'])
+
+
+@app.route('/technology',methods=['GET'])
+def tech_page():
 	table = retreiveData("Technology")
 	return render_template('predictions.html',tech = table, companies = company_data["Technology"])
 
