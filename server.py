@@ -4,8 +4,6 @@ import urllib2
 import pymysql
 import json
 import boto3
-import matplotlib.pyplot as plt
-import numpy as np
 
 app = Flask(__name__)
 from datetime import date
