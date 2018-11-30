@@ -17,10 +17,10 @@ import time
 import datetime
 
 
-AWS_KEY = "AKIAIMTSDW7GHQ7RGBOQ"
-AWS_SECRET = "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"
-REGION = "us-east-2"
-BUCKET = "ece4813-design-project-f18"
+AWS_KEY= config['AWS']['AWS_KEY']
+AWS_SECRET= config['AWS']['AWS_SECRET']
+REGION=config['AWS']['REGION']
+BUCKET = config['S3']['Bucket']
 
 s3 = boto3.client('s3',aws_access_key_id=AWS_KEY,aws_secret_access_key=AWS_SECRET)
 conf = SparkConf().set("spark.jars","mysql-connector-java-5.1.47.jar")
