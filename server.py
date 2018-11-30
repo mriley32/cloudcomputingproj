@@ -3,6 +3,9 @@ from flask import request, render_template, jsonify
 import urllib2
 import pymysql
 import json
+import boto3
+import matplotlib.pyplot as plt
+import numpy as np
 
 app = Flask(__name__)
 from datetime import date
@@ -12,109 +15,23 @@ today = date.today()
 json_data=open("config.json").read()
 config = json.loads(json_data)
 
-#DB Credentials
-USERNAME = config['RDS']['USERNAME']
-PASSWORD = config['RDS']['PASSWORD']
-DB_NAME = config['RDS']['DB_NAME']
-HOST = config['RDS']['HOST']
+AWS_KEY= config['AWS']['AWS_KEY']
+AWS_SECRET= config['AWS']['AWS_SECRET']
+REGION=config['AWS']['REGION']
+BUCKET = config['S3']['Bucket']
 
+s3 = boto3.client('s3', aws_access_key_id=AWS_KEY,
+                            aws_secret_access_key=AWS_SECRET)
+                           
+get_last_modified = lambda obj: int(obj['LastModified'].strftime('%s'))
 
-telcom = [
-    	"VZ",
-    	"T",
-        "CHL",
-        "TMUS",
-        "VOD"
-    ]
+objs = s3.list_objects_v2(Bucket=BUCKET)['Contents']
+last_added = [obj['Key'] for obj in sorted(objs, key=get_last_modified)][0]
 
-consumer = [
-        "PG",
-        "KO",
-        "PEP",
-        "BUD",
-        "WMT"
-    ]
+response = s3.get_object(Bucket=BUCKET,
+                         Key=last_added)
 
-technology = [
-        "GOOGL",
-        "FB",
-        "IBM",
-        "BABA",
-        "INTC",
-        "CSCO",
-        "AAPL",
-        "NFLX",
-        "TSLA"
-	]
-
-energy = [
-        "CVX",
-        "BP",
-        "DUK",
-        "BTU",
-        "EC",
-        "XOM"
-    ]
-
-finance = [
-        "HSBC",
-        "BAC",
-        "JPM",
-        "BRK.A",
-        "BRK.B",
-        "AIG",
-        "WFC",
-        "CB"
-    ]
-industrials = [
-		"BA",
-		"MMM",
-		"HON"
-	]
-
-json_data = open('stock_codes.json').read()
-company_data=json.loads(json_data)
-current_time = date.today()
-
-twitter_handles_data = open('twitter_handles.json').read()
-twitter_handles = json.loads(twitter_handles_data)
-
-
-def retreiveData(key):
-
-	conn = pymysql.connect (host = HOST, user = USERNAME,passwd = PASSWORD,db = DB_NAME, port = 3306, charset='utf8mb4', use_unicode=True)	 
-
-	cursor = conn.cursor()
-
-    #statement = 'SELECT * FROM financial_data WHERE ticker_symbol="%s" AND date_time="%s"' % (stock, d)
-	statement = 'SELECT * FROM financial_data'
-	cursor.execute(statement)
-	result = cursor.fetchall()
-
-	companies = company_data[key]
-	current_price = []
-	prediction = [] ##fill in later
-	key_handle = []
-
-	for code in company_data[key]:
-		code = code.encode('utf-8')
-		stock = Stock(code)
-		current_price.append(stock.get_price())
-
-	cursor.close()
-	conn.close()
-
-	#need to convert lists into tuples for easy indexing in jinja
-	zip(companies)
-	zip(current_price)
-	zip(prediction)
-	zip(key_handle)
-
-
-	table_data = {"companies": companies,"current_price":current_price,"prediction":prediction,"key_handle":key_handle}
-
-	return table_data
-
+result = json.loads(response['Body'].read())
 
 @app.route('/', methods = ['GET'])
 def home_page():
@@ -160,6 +77,23 @@ def healthcare_page():
 	table = retreiveData("Healthcare")
 	return render_template('healthcare.html', tech = table, comapnies = company_data["Healthcare"])
 
+@app.route('/R2.png', methods = ['GET'])
+def plotR2():
+	companies = result.keys()
+	R2 = [result[i].R2 for i in companies]
+
+	fig, ax = plt.subplots()
+	ind = np.arange(1, len(companies) + 1)
+
+	plt.bar(ind, R2)
+
+	ax.set_xticks(ind)
+	ax.set_xticklabels(companies)
+	ax.set_ylim([0, 100])
+	ax.set_ylabel('R Squared Value')
+	ax.set_title('Prediction Accuracy (R Squared)')
+
+	return fig
 
 if __name__ == '__main__':
     app.debug=True
