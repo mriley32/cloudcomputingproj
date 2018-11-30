@@ -4,26 +4,34 @@
 Stock Predictor
 {% endblock %}
 
+
 <h2>Stock Prediction Results</h2>
 
+
 {% block content %}
+<div class = "table-responsive">
 <table class="table table-hover">
 	<thead class="thead-light">
 		<tr>
 			<th class="col"> Company </th>
-			<th class="col"> Twitter Handle </th>
-			<th class="col"> Correlation </th>
+			{% for value in tableData[companies[0]]["coef"].keys() %}
+			<th class="col"> {{value}} </th>
+			{% endfor %}
+			<th class="col"> R2 </th>
 		</tr>
 	</thead>
 	<tbody>
+		{% for value in companies %}
 		<tr>
-			{% for handle in handles %}
-			<td> {{handle}} </td>
-			<td> {{handle}} </td>
-			<td> {{handle}}</td>
+			<td class = "row"> {{value}} </td>
+			{% for k in tableData[value]['coef'].keys()%}
+			<td>{{tableData[value]['coef'][k]}}</td>
 			{% endfor %}
+			<td class = "row"> {{tableData[value]['R2']}} </td>
 		</tr>
+		{% endfor %}
 	</tbody>
 </table>
+</div>
 
 {% endblock %}
