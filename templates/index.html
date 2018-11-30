@@ -8,41 +8,23 @@ Stock Predictor
 
 
 {% block content %}
-<style>
-	table {
-		position: relative;
-		top: 15px;
-		width:60%;
-	}
-    table,td,th{
-        text-align: center;
-        border: 1px solid black;
-    }
- 	th {
-        background-color: #98FB98;
-        color: black;
-    }
-    td,th{
-        padding: 10px;
-    }
-    tr:nth-child(even) {background-color: #f2f2f2;}   
-
-</style>
-
-<table style = "border: 1px solid black;margin: auto">
-<tr style = "text-align: center;">
-	<th> Company </th>
-	<th> Twitter Handle </th>
-	<th> Correlation </th>
-</tr>
-
-<tr>
-	{% for handle in handles %}
-	<td> {{handle}} </td>
-	<td> {{handle}} </td>
-	<td> {{handle}}</td>
-</tr>
-	{% endfor %}
+<table class="table table-hover">
+	<thead class="thead-light">
+		<tr>
+			<th class="col"> Company </th>
+			<th class="col"> Twitter Handle </th>
+			<th class="col"> Correlation </th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			{% for handle in handles %}
+			<td> {{handle}} </td>
+			<td> {{handle}} </td>
+			<td> {{handle}}</td>
+			{% endfor %}
+		</tr>
+	</tbody>
 </table>
 
 {% endblock %}
