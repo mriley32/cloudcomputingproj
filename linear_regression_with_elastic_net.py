@@ -17,8 +17,6 @@
 
 from __future__ import print_function
 
-import findspark
-findspark.init("/home/ubuntu/cloudcomputingproj/spark-2.0.0-bin-hadoop2.7")
 # $example on$
 from pyspark.conf import SparkConf
 from pyspark.ml.regression import LinearRegression
@@ -49,13 +47,16 @@ if __name__ == "__main__":
     
     tweets = dftweets.drop('tweet_text').drop('id').withColumn('date',date_trunc('day',col('date_time'))).drop('date_time')
     aggtweets = tweets.groupBy('date','twitter_handle').agg(avg(tweets.sentiment_score).alias('sentiment_score'))
-    aggtweets.groupBy('date').pivot('twitter_handle').sum('sentiment_score')
+    sent_sums = aggtweets.groupBy('date').pivot('twitter_handle').sum('sentiment_score').orderBy('date')
+    sent_sums.show()
     dfstock = dfstock.sort("date_time",ascending=True)
     groupedstock = dfstock.groupby("ticker_code")
     dummy = dfstock.dropDuplicates(['ticker_symbol'])
     listofcomp = dummy.select("ticker_symbol").collect()
     for i in listofcomp:
         print(i.ticker_symbol)
+        mydf = dfstock.filter(dfstock.ticker_symbol == i.ticker_symbol)
+        mydf.show()
     #print(listofcomp)
     #groupedstock.show()
     #properties = {"driver":"mysql-connector-java-5.0.8-bin.jar"}
@@ -63,8 +64,7 @@ if __name__ == "__main__":
     print("HERE!")
     # $example on$
     # Load training data
-    training = spark.read.format("libsvm")\
-        .load("../../../../../data/mllib/sample_linear_regression_data.txt")
+    #training = spark.read.format("libsvm")\.load("../../../../../data/mllib/sample_linear_regression_data.txt")
 
     lr = LinearRegression(maxIter=10, regParam=0.3, elasticNetParam=0.8)
 

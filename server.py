@@ -4,8 +4,6 @@ import urllib2
 import pymysql
 import json
 import boto3
-import matplotlib.pyplot as plt
-import numpy as np
 
 app = Flask(__name__)
 from datetime import date
@@ -79,23 +77,25 @@ def healthcare_page():
 	table = retreiveData("Healthcare")
 	return render_template('healthcare.html', tech = table, comapnies = company_data["Healthcare"])
 
-#@app.route('/R2.png', methods = ['GET'])
-#def plotR2():
-	#companies = result.keys()
-	#R2 = [result[i].R2 for i in companies]
 
-	#fig, ax = plt.subplots()
-	#ind = np.arange(1, len(companies) + 1)
+# @app.route('/R2.png', methods = ['GET'])
+# def plotR2():
+# 	companies = result.keys()
+# 	R2 = [result[i].R2 for i in companies]
 
-	#plt.bar(ind, R2)
+# 	fig, ax = plt.subplots()
+# 	ind = np.arange(1, len(companies) + 1)
 
-	#ax.set_xticks(ind)
-	#ax.set_xticklabels(companies)
-	#ax.set_ylim([0, 100])
-	#ax.set_ylabel('R Squared Value')
-	#ax.set_title('Prediction Accuracy (R Squared)')
+# 	plt.bar(ind, R2)
 
-	#return fig
+# 	ax.set_xticks(ind)
+# 	ax.set_xticklabels(companies)
+# 	ax.set_ylim([0, 100])
+# 	ax.set_ylabel('R Squared Value')
+# 	ax.set_title('Prediction Accuracy (R Squared)')
+
+# 	return fig
+
 
 if __name__ == '__main__':
     app.debug=True
